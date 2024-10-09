@@ -35,17 +35,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_rnglists 00000743  00000000  00000000  00010a78  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000105f2  00000000  00000000  000111bb  2**0
+ 16 .debug_macro  000016e9  00000000  00000000  000111bb  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000ca0b  00000000  00000000  000217ad  2**0
+ 17 .debug_line   0000ca0c  00000000  00000000  000128a4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00063c91  00000000  00000000  0002e1b8  2**0
+ 18 .debug_str    00063c91  00000000  00000000  0001f2b0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00091e49  2**0
+ 19 .comment      00000086  00000000  00000000  00082f41  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002114  00000000  00000000  00091e8c  2**2
+ 20 .debug_frame  00002114  00000000  00000000  00082fc8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000006d  00000000  00000000  00093fa0  2**0
+ 21 .debug_line_str 0000006d  00000000  00000000  000850dc  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -809,7 +809,7 @@ static void MX_I2C1_Init(void)
  80005e4:	4b1b      	ldr	r3, [pc, #108]	@ (8000654 <MX_I2C1_Init+0x74>)
  80005e6:	4a1c      	ldr	r2, [pc, #112]	@ (8000658 <MX_I2C1_Init+0x78>)
  80005e8:	601a      	str	r2, [r3, #0]
-  hi2c1.Init.Timing = 0x00707CBB;
+  hi2c1.Init.Timing = 0x00B07CB4;
  80005ea:	4b1a      	ldr	r3, [pc, #104]	@ (8000654 <MX_I2C1_Init+0x74>)
  80005ec:	4a1b      	ldr	r2, [pc, #108]	@ (800065c <MX_I2C1_Init+0x7c>)
  80005ee:	605a      	str	r2, [r3, #4]
@@ -889,7 +889,7 @@ static void MX_I2C1_Init(void)
  8000652:	bd80      	pop	{r7, pc}
  8000654:	20000028 	.word	0x20000028
  8000658:	40005400 	.word	0x40005400
- 800065c:	00707cbb 	.word	0x00707cbb
+ 800065c:	00b07cb4 	.word	0x00b07cb4
 
 08000660 <MX_USART2_UART_Init>:
   * @brief USART2 Initialization Function
@@ -1320,9 +1320,9 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
  800089a:	0389      	lsls	r1, r1, #14
  800089c:	430a      	orrs	r2, r1
  800089e:	639a      	str	r2, [r3, #56]	@ 0x38
-  /* USER CODE BEGIN I2C1_MspInit 1 */
 
   /* USER CODE END I2C1_MspInit 1 */
+
   }
 
 }
@@ -1418,9 +1418,9 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
  8000922:	0011      	movs	r1, r2
  8000924:	0018      	movs	r0, r3
  8000926:	f000 f9bb 	bl	8000ca0 <HAL_GPIO_Init>
-  /* USER CODE BEGIN USART2_MspInit 1 */
 
   /* USER CODE END USART2_MspInit 1 */
+
   }
 
 }
