@@ -1,22 +1,7 @@
 Core/Src/ToF_platform/vl53l1_platform.o: \
  ../Core/Src/ToF_platform/vl53l1_platform.c \
  C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_ll_def.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_error_codes.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_types.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_register_structs.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_register_map.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_user_config.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_user_defines.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_hist_structs.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_ll_device.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_dmax_structs.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_error_exceptions.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_log.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_ipp_imports.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_user_data.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_def.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_ll_def.h \
+ C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_types.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
  ../Core/Inc/stm32l0xx_hal_conf.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h \
@@ -44,29 +29,9 @@ Core/Src/ToF_platform/vl53l1_platform.o: \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_log.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_api.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_api_strings.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_def.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_api_core.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_preset_setup.h
+ ../Core/Inc/main.h
 C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_ll_def.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_error_codes.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_types.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_register_structs.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_register_map.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_user_config.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_user_defines.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_hist_structs.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_ll_device.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_dmax_structs.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_error_exceptions.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_log.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_ipp_imports.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_user_data.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_def.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_ll_def.h:
+C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_types.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h:
 ../Core/Inc/stm32l0xx_hal_conf.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h:
@@ -94,9 +59,4 @@ C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform_log.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_api.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_api_strings.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_def.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_api_core.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/vl53l1_preset_setup.h:
+../Core/Inc/main.h:

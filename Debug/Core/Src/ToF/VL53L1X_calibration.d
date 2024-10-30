@@ -1,4 +1,7 @@
-Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
+Core/Src/ToF/VL53L1X_calibration.o: ../Core/Src/ToF/VL53L1X_calibration.c \
+ C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/VL53L1X_api.h \
+ C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform.h \
+ C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_types.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
  ../Core/Inc/stm32l0xx_hal_conf.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h \
@@ -26,11 +29,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/VL53L1X_api.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform.h \
- C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_types.h \
  C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/VL53L1X_calibration.h
-../Core/Inc/main.h:
+C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/VL53L1X_api.h:
+C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform.h:
+C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_types.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h:
 ../Core/Inc/stm32l0xx_hal_conf.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h:
@@ -58,7 +60,4 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/VL53L1X_api.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_platform.h:
-C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF_platform/vl53l1_types.h:
 C:/Users/floro/STM32CubeIDE/workspace_1.15.1/ToF_Detection_FHV/Core/Inc/ToF/VL53L1X_calibration.h:

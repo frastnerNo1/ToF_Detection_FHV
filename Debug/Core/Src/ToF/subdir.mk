@@ -5,58 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/ToF/vl53l1_api.c \
-../Core/Src/ToF/vl53l1_api_calibration.c \
-../Core/Src/ToF/vl53l1_api_core.c \
-../Core/Src/ToF/vl53l1_api_debug.c \
-../Core/Src/ToF/vl53l1_api_preset_modes.c \
-../Core/Src/ToF/vl53l1_api_strings.c \
-../Core/Src/ToF/vl53l1_core.c \
-../Core/Src/ToF/vl53l1_core_support.c \
-../Core/Src/ToF/vl53l1_error_strings.c \
-../Core/Src/ToF/vl53l1_hist_char.c \
-../Core/Src/ToF/vl53l1_nvm.c \
-../Core/Src/ToF/vl53l1_nvm_debug.c \
-../Core/Src/ToF/vl53l1_register_funcs.c \
-../Core/Src/ToF/vl53l1_silicon_core.c \
-../Core/Src/ToF/vl53l1_wait.c \
-../Core/Src/ToF/vl53l1_zone_presets.c 
+../Core/Src/ToF/VL53L1X_api.c \
+../Core/Src/ToF/VL53L1X_calibration.c 
 
 OBJS += \
-./Core/Src/ToF/vl53l1_api.o \
-./Core/Src/ToF/vl53l1_api_calibration.o \
-./Core/Src/ToF/vl53l1_api_core.o \
-./Core/Src/ToF/vl53l1_api_debug.o \
-./Core/Src/ToF/vl53l1_api_preset_modes.o \
-./Core/Src/ToF/vl53l1_api_strings.o \
-./Core/Src/ToF/vl53l1_core.o \
-./Core/Src/ToF/vl53l1_core_support.o \
-./Core/Src/ToF/vl53l1_error_strings.o \
-./Core/Src/ToF/vl53l1_hist_char.o \
-./Core/Src/ToF/vl53l1_nvm.o \
-./Core/Src/ToF/vl53l1_nvm_debug.o \
-./Core/Src/ToF/vl53l1_register_funcs.o \
-./Core/Src/ToF/vl53l1_silicon_core.o \
-./Core/Src/ToF/vl53l1_wait.o \
-./Core/Src/ToF/vl53l1_zone_presets.o 
+./Core/Src/ToF/VL53L1X_api.o \
+./Core/Src/ToF/VL53L1X_calibration.o 
 
 C_DEPS += \
-./Core/Src/ToF/vl53l1_api.d \
-./Core/Src/ToF/vl53l1_api_calibration.d \
-./Core/Src/ToF/vl53l1_api_core.d \
-./Core/Src/ToF/vl53l1_api_debug.d \
-./Core/Src/ToF/vl53l1_api_preset_modes.d \
-./Core/Src/ToF/vl53l1_api_strings.d \
-./Core/Src/ToF/vl53l1_core.d \
-./Core/Src/ToF/vl53l1_core_support.d \
-./Core/Src/ToF/vl53l1_error_strings.d \
-./Core/Src/ToF/vl53l1_hist_char.d \
-./Core/Src/ToF/vl53l1_nvm.d \
-./Core/Src/ToF/vl53l1_nvm_debug.d \
-./Core/Src/ToF/vl53l1_register_funcs.d \
-./Core/Src/ToF/vl53l1_silicon_core.d \
-./Core/Src/ToF/vl53l1_wait.d \
-./Core/Src/ToF/vl53l1_zone_presets.d 
+./Core/Src/ToF/VL53L1X_api.d \
+./Core/Src/ToF/VL53L1X_calibration.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -66,7 +24,7 @@ Core/Src/ToF/%.o Core/Src/ToF/%.su Core/Src/ToF/%.cyclo: ../Core/Src/ToF/%.c Cor
 clean: clean-Core-2f-Src-2f-ToF
 
 clean-Core-2f-Src-2f-ToF:
-	-$(RM) ./Core/Src/ToF/vl53l1_api.cyclo ./Core/Src/ToF/vl53l1_api.d ./Core/Src/ToF/vl53l1_api.o ./Core/Src/ToF/vl53l1_api.su ./Core/Src/ToF/vl53l1_api_calibration.cyclo ./Core/Src/ToF/vl53l1_api_calibration.d ./Core/Src/ToF/vl53l1_api_calibration.o ./Core/Src/ToF/vl53l1_api_calibration.su ./Core/Src/ToF/vl53l1_api_core.cyclo ./Core/Src/ToF/vl53l1_api_core.d ./Core/Src/ToF/vl53l1_api_core.o ./Core/Src/ToF/vl53l1_api_core.su ./Core/Src/ToF/vl53l1_api_debug.cyclo ./Core/Src/ToF/vl53l1_api_debug.d ./Core/Src/ToF/vl53l1_api_debug.o ./Core/Src/ToF/vl53l1_api_debug.su ./Core/Src/ToF/vl53l1_api_preset_modes.cyclo ./Core/Src/ToF/vl53l1_api_preset_modes.d ./Core/Src/ToF/vl53l1_api_preset_modes.o ./Core/Src/ToF/vl53l1_api_preset_modes.su ./Core/Src/ToF/vl53l1_api_strings.cyclo ./Core/Src/ToF/vl53l1_api_strings.d ./Core/Src/ToF/vl53l1_api_strings.o ./Core/Src/ToF/vl53l1_api_strings.su ./Core/Src/ToF/vl53l1_core.cyclo ./Core/Src/ToF/vl53l1_core.d ./Core/Src/ToF/vl53l1_core.o ./Core/Src/ToF/vl53l1_core.su ./Core/Src/ToF/vl53l1_core_support.cyclo ./Core/Src/ToF/vl53l1_core_support.d ./Core/Src/ToF/vl53l1_core_support.o ./Core/Src/ToF/vl53l1_core_support.su ./Core/Src/ToF/vl53l1_error_strings.cyclo ./Core/Src/ToF/vl53l1_error_strings.d ./Core/Src/ToF/vl53l1_error_strings.o ./Core/Src/ToF/vl53l1_error_strings.su ./Core/Src/ToF/vl53l1_hist_char.cyclo ./Core/Src/ToF/vl53l1_hist_char.d ./Core/Src/ToF/vl53l1_hist_char.o ./Core/Src/ToF/vl53l1_hist_char.su ./Core/Src/ToF/vl53l1_nvm.cyclo ./Core/Src/ToF/vl53l1_nvm.d ./Core/Src/ToF/vl53l1_nvm.o ./Core/Src/ToF/vl53l1_nvm.su ./Core/Src/ToF/vl53l1_nvm_debug.cyclo ./Core/Src/ToF/vl53l1_nvm_debug.d ./Core/Src/ToF/vl53l1_nvm_debug.o ./Core/Src/ToF/vl53l1_nvm_debug.su ./Core/Src/ToF/vl53l1_register_funcs.cyclo ./Core/Src/ToF/vl53l1_register_funcs.d ./Core/Src/ToF/vl53l1_register_funcs.o ./Core/Src/ToF/vl53l1_register_funcs.su ./Core/Src/ToF/vl53l1_silicon_core.cyclo ./Core/Src/ToF/vl53l1_silicon_core.d ./Core/Src/ToF/vl53l1_silicon_core.o ./Core/Src/ToF/vl53l1_silicon_core.su ./Core/Src/ToF/vl53l1_wait.cyclo ./Core/Src/ToF/vl53l1_wait.d ./Core/Src/ToF/vl53l1_wait.o ./Core/Src/ToF/vl53l1_wait.su ./Core/Src/ToF/vl53l1_zone_presets.cyclo ./Core/Src/ToF/vl53l1_zone_presets.d ./Core/Src/ToF/vl53l1_zone_presets.o ./Core/Src/ToF/vl53l1_zone_presets.su
+	-$(RM) ./Core/Src/ToF/VL53L1X_api.cyclo ./Core/Src/ToF/VL53L1X_api.d ./Core/Src/ToF/VL53L1X_api.o ./Core/Src/ToF/VL53L1X_api.su ./Core/Src/ToF/VL53L1X_calibration.cyclo ./Core/Src/ToF/VL53L1X_calibration.d ./Core/Src/ToF/VL53L1X_calibration.o ./Core/Src/ToF/VL53L1X_calibration.su
 
 .PHONY: clean-Core-2f-Src-2f-ToF
 

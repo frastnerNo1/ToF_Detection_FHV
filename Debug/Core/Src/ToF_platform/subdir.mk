@@ -5,16 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/ToF_platform/vl53l1_platform.c \
-../Core/Src/ToF_platform/vl53l1_platform_log.c 
+../Core/Src/ToF_platform/vl53l1_platform.c 
 
 OBJS += \
-./Core/Src/ToF_platform/vl53l1_platform.o \
-./Core/Src/ToF_platform/vl53l1_platform_log.o 
+./Core/Src/ToF_platform/vl53l1_platform.o 
 
 C_DEPS += \
-./Core/Src/ToF_platform/vl53l1_platform.d \
-./Core/Src/ToF_platform/vl53l1_platform_log.d 
+./Core/Src/ToF_platform/vl53l1_platform.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -24,7 +21,7 @@ Core/Src/ToF_platform/%.o Core/Src/ToF_platform/%.su Core/Src/ToF_platform/%.cyc
 clean: clean-Core-2f-Src-2f-ToF_platform
 
 clean-Core-2f-Src-2f-ToF_platform:
-	-$(RM) ./Core/Src/ToF_platform/vl53l1_platform.cyclo ./Core/Src/ToF_platform/vl53l1_platform.d ./Core/Src/ToF_platform/vl53l1_platform.o ./Core/Src/ToF_platform/vl53l1_platform.su ./Core/Src/ToF_platform/vl53l1_platform_log.cyclo ./Core/Src/ToF_platform/vl53l1_platform_log.d ./Core/Src/ToF_platform/vl53l1_platform_log.o ./Core/Src/ToF_platform/vl53l1_platform_log.su
+	-$(RM) ./Core/Src/ToF_platform/vl53l1_platform.cyclo ./Core/Src/ToF_platform/vl53l1_platform.d ./Core/Src/ToF_platform/vl53l1_platform.o ./Core/Src/ToF_platform/vl53l1_platform.su
 
 .PHONY: clean-Core-2f-Src-2f-ToF_platform
 

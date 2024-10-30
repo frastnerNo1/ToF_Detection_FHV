@@ -21,6 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "VL53L1X_api.h"
+#include "VL53L1X_calibration.h"
 
 /* USER CODE END Includes */
 
@@ -45,6 +47,7 @@ I2C_HandleTypeDef hi2c1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+VL53L1_Dev_t tof_1;
 
 /* USER CODE END PV */
 
@@ -56,6 +59,8 @@ static void MX_I2C1_Init(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+static void TOF_Init(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -98,6 +103,12 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
+  TOF_Init();
+  uint8_t dataReady = 0;
+  uint8_t rangeStatus = 0;
+  uint16_t distance = 0;
+
+  VL53L1X_StartRanging(tof_1.tof_addr);
 
   /* USER CODE END 2 */
 
@@ -105,6 +116,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      printf("loop\r\n");
+      HAL_Delay(100);
+      while(dataReady == 0){
+          VL53L1X_CheckForDataReady(tof_1.tof_addr, &dataReady);
+      }
+      dataReady = 0;
+      VL53L1X_GetRangeStatus(tof_1.tof_addr, &rangeStatus);
+      //printf("Status: %d\r\n", rangeStatus);
+      VL53L1X_GetDistance(tof_1.tof_addr, &distance);
+      printf("Distance: %dmm\r\n", distance);
+      VL53L1X_ClearInterrupt(tof_1.tof_addr);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -277,10 +300,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, STOP_OUT_Pin|SLOW_OUT_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, STOP_OUT_Pin|SLOW_OUT_Pin|SHUT_ToF1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, SHUT_ToF2_Pin|SHUT_ToF3_Pin|SHUT_ToF4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : X_DIR_IN_Pin Y_DIR_IN_Pin */
   GPIO_InitStruct.Pin = X_DIR_IN_Pin|Y_DIR_IN_Pin;
@@ -288,37 +311,58 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : STOP_OUT_Pin SLOW_OUT_Pin */
-  GPIO_InitStruct.Pin = STOP_OUT_Pin|SLOW_OUT_Pin;
+  /*Configure GPIO pins : STOP_OUT_Pin SLOW_OUT_Pin SHUT_ToF1_Pin */
+  GPIO_InitStruct.Pin = STOP_OUT_Pin|SLOW_OUT_Pin|SHUT_ToF1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : INT_ToF2_Pin INT_ToF3_Pin */
-  GPIO_InitStruct.Pin = INT_ToF2_Pin|INT_ToF3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  /*Configure GPIO pins : SHUT_ToF2_Pin SHUT_ToF3_Pin SHUT_ToF4_Pin */
+  GPIO_InitStruct.Pin = SHUT_ToF2_Pin|SHUT_ToF3_Pin|SHUT_ToF4_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : INT_ToF1_Pin INT_ToF3_Pin */
+  GPIO_InitStruct.Pin = INT_ToF1_Pin|INT_ToF3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : INT_ToF4_Pin INT_ToF1_Pin */
-  GPIO_InitStruct.Pin = INT_ToF4_Pin|INT_ToF1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  /*Configure GPIO pins : INT_ToF4_Pin INT_ToF2_Pin */
+  GPIO_InitStruct.Pin = INT_ToF4_Pin|INT_ToF2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : LD3_Pin */
-  GPIO_InitStruct.Pin = LD3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD3_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
+
+static void TOF_Init(){
+	tof_1.tof_addr = 0x52;
+	tof_1.tof_port = SHUT_ToF1_GPIO_Port;
+	tof_1.tof_pin = SHUT_ToF1_Pin;
+	tof_1.tof_intpin = INT_ToF1_Pin;
+
+	VL53L1_SensorOn(tof_1.tof_pin, tof_1.tof_port);
+	HAL_Delay(500);
+
+    uint8_t booted = 0;
+
+	printf("Start\r\n");
+	while(booted == 0){
+	    VL53L1X_BootState(tof_1.tof_addr, &booted);
+	    HAL_Delay(1000);
+	    printf("Booting\r\n");
+	}
+	VL53L1X_SensorInit(tof_1.tof_addr);
+	printf("Ready\r\n");
+}
 
 /**
   * @brief  Retargets the C library printf function to the USART.

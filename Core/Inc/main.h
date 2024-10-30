@@ -36,6 +36,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern I2C_HandleTypeDef hi2c1;
 
 /* USER CODE END ET */
 
@@ -67,26 +68,32 @@ void Error_Handler(void);
 #define STOP_OUT_GPIO_Port GPIOA
 #define SLOW_OUT_Pin GPIO_PIN_4
 #define SLOW_OUT_GPIO_Port GPIOA
-#define INT_ToF2_Pin GPIO_PIN_0
-#define INT_ToF2_GPIO_Port GPIOB
-#define INT_ToF2_EXTI_IRQn EXTI0_1_IRQn
-#define INT_ToF3_Pin GPIO_PIN_1
-#define INT_ToF3_GPIO_Port GPIOB
-#define INT_ToF3_EXTI_IRQn EXTI0_1_IRQn
-#define INT_ToF4_Pin GPIO_PIN_8
+#define SHUT_ToF2_Pin GPIO_PIN_0
+#define SHUT_ToF2_GPIO_Port GPIOB
+#define INT_ToF1_Pin GPIO_PIN_1
+#define INT_ToF1_GPIO_Port GPIOB
+#define INT_ToF1_EXTI_IRQn EXTI0_1_IRQn
+#define SHUT_ToF1_Pin GPIO_PIN_8
+#define SHUT_ToF1_GPIO_Port GPIOA
+#define INT_ToF4_Pin GPIO_PIN_11
 #define INT_ToF4_GPIO_Port GPIOA
 #define INT_ToF4_EXTI_IRQn EXTI4_15_IRQn
-#define INT_ToF1_Pin GPIO_PIN_12
-#define INT_ToF1_GPIO_Port GPIOA
-#define INT_ToF1_EXTI_IRQn EXTI4_15_IRQn
+#define INT_ToF2_Pin GPIO_PIN_12
+#define INT_ToF2_GPIO_Port GPIOA
+#define INT_ToF2_EXTI_IRQn EXTI4_15_IRQn
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
 #define VCP_RX_Pin GPIO_PIN_15
 #define VCP_RX_GPIO_Port GPIOA
-#define LD3_Pin GPIO_PIN_3
-#define LD3_GPIO_Port GPIOB
+#define SHUT_ToF3_Pin GPIO_PIN_3
+#define SHUT_ToF3_GPIO_Port GPIOB
+#define INT_ToF3_Pin GPIO_PIN_4
+#define INT_ToF3_GPIO_Port GPIOB
+#define INT_ToF3_EXTI_IRQn EXTI4_15_IRQn
+#define SHUT_ToF4_Pin GPIO_PIN_5
+#define SHUT_ToF4_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
