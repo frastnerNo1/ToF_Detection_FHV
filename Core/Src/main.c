@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "VL53L1X_api.h"
 #include "VL53L1X_calibration.h"
+#include "tof_ctrl.h"
 
 /* USER CODE END Includes */
 
@@ -33,7 +34,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define DISTANCE_SLOW	50
+#define DISTANCE_STOP	20
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -48,6 +50,9 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 VL53L1_Dev_t tof_1;
+VL53L1_Dev_t tof_2;
+VL53L1_Dev_t tof_3;
+VL53L1_Dev_t tof_4;
 
 /* USER CODE END PV */
 
@@ -59,7 +64,10 @@ static void MX_I2C1_Init(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-static void TOF_Init(void);
+static void TOF1_Init(void);
+static void TOF2_Init(void);
+static void TOF3_Init(void);
+static void TOF4_Init(void);
 
 /* USER CODE END PFP */
 
@@ -103,12 +111,16 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-  TOF_Init();
-  uint8_t dataReady = 0;
-  uint8_t rangeStatus = 0;
-  uint16_t distance = 0;
+  TOF1_Init();
+  TOF2_Init();
+  TOF3_Init();
+  TOF4_Init();
+  tof_ctrl_boot(&tof_1, 0x10);
+  //tof_ctrl_boot(&tof_2, 0x20);
+  //tof_ctrl_boot(&tof_3, 0x30);
+  //tof_ctrl_boot(&tof_4, 0x40);
 
-  VL53L1X_StartRanging(tof_1.tof_addr);
+  uint16_t distance = 0;
 
   /* USER CODE END 2 */
 
@@ -116,17 +128,27 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      printf("loop\r\n");
-      HAL_Delay(100);
-      while(dataReady == 0){
-          VL53L1X_CheckForDataReady(tof_1.tof_addr, &dataReady);
-      }
-      dataReady = 0;
-      VL53L1X_GetRangeStatus(tof_1.tof_addr, &rangeStatus);
-      //printf("Status: %d\r\n", rangeStatus);
-      VL53L1X_GetDistance(tof_1.tof_addr, &distance);
-      printf("Distance: %dmm\r\n", distance);
-      VL53L1X_ClearInterrupt(tof_1.tof_addr);
+	  if(HAL_GPIO_ReadPin(X_DIR_IN_GPIO_Port, X_DIR_IN_Pin) == GPIO_PIN_SET){
+		  tof_ctrl_get_distance(&tof_1, &distance, 200);
+		  tof_ctrl_get_distance(&tof_2, &distance, 200);
+	  }
+
+	  if(HAL_GPIO_ReadPin(Y_DIR_IN_GPIO_Port, Y_DIR_IN_Pin) == GPIO_PIN_SET){
+		  tof_ctrl_get_distance(&tof_3, &distance, 200);
+		  tof_ctrl_get_distance(&tof_4, &distance, 200);
+	  }
+
+	  if(distance < DISTANCE_SLOW){
+		  HAL_GPIO_WritePin(SLOW_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_SET);
+	  } else {
+		  HAL_GPIO_WritePin(SLOW_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_RESET);
+	  }
+
+	  if(distance < DISTANCE_STOP){
+		  HAL_GPIO_WritePin(STOP_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_SET);
+	  } else {
+		  HAL_GPIO_WritePin(STOP_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_RESET);
+	  }
 
     /* USER CODE END WHILE */
 
@@ -343,25 +365,36 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-static void TOF_Init(){
+static void TOF1_Init(){
 	tof_1.tof_addr = 0x52;
 	tof_1.tof_port = SHUT_ToF1_GPIO_Port;
 	tof_1.tof_pin = SHUT_ToF1_Pin;
+	tof_1.tof_intport = INT_ToF1_GPIO_Port;
 	tof_1.tof_intpin = INT_ToF1_Pin;
+}
 
-	VL53L1_SensorOn(tof_1.tof_pin, tof_1.tof_port);
-	HAL_Delay(500);
+static void TOF2_Init(){
+	tof_2.tof_addr = 0x52;
+	tof_2.tof_port = SHUT_ToF2_GPIO_Port;
+	tof_2.tof_pin = SHUT_ToF2_Pin;
+	tof_2.tof_intport = INT_ToF2_GPIO_Port;
+	tof_2.tof_intpin = INT_ToF2_Pin;
+}
 
-    uint8_t booted = 0;
+static void TOF3_Init(){
+	tof_3.tof_addr = 0x52;
+	tof_3.tof_port = SHUT_ToF3_GPIO_Port;
+	tof_3.tof_pin = SHUT_ToF3_Pin;
+	tof_3.tof_intport = INT_ToF3_GPIO_Port;
+	tof_3.tof_intpin = INT_ToF3_Pin;
+}
 
-	printf("Start\r\n");
-	while(booted == 0){
-	    VL53L1X_BootState(tof_1.tof_addr, &booted);
-	    HAL_Delay(1000);
-	    printf("Booting\r\n");
-	}
-	VL53L1X_SensorInit(tof_1.tof_addr);
-	printf("Ready\r\n");
+static void TOF4_Init(){
+	tof_4.tof_addr = 0x52;
+	tof_4.tof_port = SHUT_ToF4_GPIO_Port;
+	tof_4.tof_pin = SHUT_ToF4_Pin;
+	tof_4.tof_intport = INT_ToF4_GPIO_Port;
+	tof_4.tof_intpin = INT_ToF4_Pin;
 }
 
 /**

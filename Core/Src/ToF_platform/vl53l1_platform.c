@@ -124,12 +124,12 @@ int8_t VL53L1_WaitMs(uint16_t dev, int32_t wait_ms){
 	return 0;
 }
 
-int8_t VL53L1_SensorOn (uint16_t pin, GPIO_TypeDef* port){
-	HAL_GPIO_WritePin(port, pin, GPIO_PIN_SET);
+int8_t VL53L1_SensorOn (VL53L1_DEV dev){
+	HAL_GPIO_WritePin(dev->tof_port, dev->tof_pin, GPIO_PIN_SET);
 	return 0;
 }
 
-int8_t VL53L1_SensorOff (uint16_t pin, GPIO_TypeDef* port){
-	HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
+int8_t VL53L1_SensorOff (VL53L1_DEV dev){
+	HAL_GPIO_WritePin(dev->tof_port, dev->tof_pin, GPIO_PIN_RESET);
 	return 0;
 }
