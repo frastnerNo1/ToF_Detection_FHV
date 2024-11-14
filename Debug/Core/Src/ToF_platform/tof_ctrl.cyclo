@@ -1,0 +1,4 @@
+../Core/Src/ToF_platform/tof_ctrl.c:22:6:tof_ctrl_init	2
+../Core/Src/ToF_platform/tof_ctrl.c:34:6:tof_ctrl_set_addr	1
+../Core/Src/ToF_platform/tof_ctrl.c:40:6:tof_ctrl_config	1
+../Core/Src/ToF_platform/tof_ctrl.c:49:6:tof_ctrl_get_range	3

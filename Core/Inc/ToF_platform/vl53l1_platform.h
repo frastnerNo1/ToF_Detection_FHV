@@ -26,11 +26,12 @@ extern "C"
 {
 #endif
 
-typedef struct {
+typedef struct tof_dev{
 	uint32_t     tof_addr;
-	GPIO_TypeDef* tof_port;
-	uint16_t     tof_pin;
+	GPIO_TypeDef* tof_intport;
+	GPIO_TypeDef* tof_wakeport;
 	uint16_t     tof_intpin;
+	uint16_t     tof_wakepin;
 } VL53L1_Dev_t;
 
 typedef VL53L1_Dev_t *VL53L1_DEV;
@@ -101,13 +102,11 @@ int8_t VL53L1_WaitMs(
 		int32_t       wait_ms);
 
 int8_t VL53L1_SensorOn (
-		uint16_t pin,
-		GPIO_TypeDef* port
+		VL53L1_DEV dev
 		);
 
 int8_t VL53L1_SensorOff (
-		uint16_t pin,
-		GPIO_TypeDef* port
+		VL53L1_DEV dev
 		);
 
 #ifdef __cplusplus

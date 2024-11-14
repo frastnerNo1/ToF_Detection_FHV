@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "VL53L1X_api.h"
 #include "VL53L1X_calibration.h"
+#include "tof_ctrl.h"
 
 /* USER CODE END Includes */
 
@@ -47,7 +48,10 @@ I2C_HandleTypeDef hi2c1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-VL53L1_Dev_t tof_1;
+VL53L1_Dev_t tof_x_pos;
+VL53L1_Dev_t tof_x_neg;
+VL53L1_Dev_t tof_y_pos;
+VL53L1_Dev_t tof_y_neg;
 
 /* USER CODE END PV */
 
@@ -59,7 +63,10 @@ static void MX_I2C1_Init(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-static void TOF_Init(void);
+static void TOFxpos_Init(void);
+static void TOFxneg_Init(void);
+static void TOFypos_Init(void);
+static void TOFyneg_Init(void);
 
 /* USER CODE END PFP */
 
@@ -103,12 +110,28 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-  TOF_Init();
-  uint8_t dataReady = 0;
-  uint8_t rangeStatus = 0;
-  uint16_t distance = 0;
+  printf("Start\r\n");
+  TOFxpos_Init();
+  //TOFxneg_Init();
+  //TOFypos_Init();
+  //TOFyneg_Init();
 
-  VL53L1X_StartRanging(tof_1.tof_addr);
+  tof_ctrl_init(&tof_x_pos);
+  //tof_ctrl_init(&tof_x_neg);
+  //tof_ctrl_init(&tof_y_pos);
+  //tof_ctrl_init(&tof_y_neg);
+
+  //tof_ctrl_set_addr(&tof_x_pos, 0x10);
+  //tof_ctrl_set_addr(&tof_x_neg, 0x20);
+  //tof_ctrl_set_addr(&tof_y_pos, 0x30);
+  //tof_ctrl_set_addr(&tof_y_neg, 0x40);
+
+  uint16_t distancexpos = 0;
+  uint8_t sensorState = 0;
+  uint8_t status = 0;
+
+  VL53L1_SensorOn(&tof_x_pos);
+  VL53L1X_StartRanging(tof_x_pos.tof_addr);
 
   /* USER CODE END 2 */
 
@@ -117,16 +140,16 @@ int main(void)
   while (1)
   {
       printf("loop\r\n");
-      HAL_Delay(100);
-      while(dataReady == 0){
-          VL53L1X_CheckForDataReady(tof_1.tof_addr, &dataReady);
-      }
-      dataReady = 0;
-      VL53L1X_GetRangeStatus(tof_1.tof_addr, &rangeStatus);
-      //printf("Status: %d\r\n", rangeStatus);
-      VL53L1X_GetDistance(tof_1.tof_addr, &distance);
-      printf("Distance: %dmm\r\n", distance);
-      VL53L1X_ClearInterrupt(tof_1.tof_addr);
+      HAL_Delay(1000);
+  	while(sensorState == 0){
+  		printf("loopwait\r\n");
+  		VL53L1X_CheckForDataReady(tof_x_pos.tof_addr, &sensorState);
+  	}
+  	sensorState = 0;
+  	VL53L1X_GetRangeStatus(tof_x_pos.tof_addr, &status);
+  	VL53L1X_GetDistance(tof_x_pos.tof_addr, &distancexpos);
+  	VL53L1X_ClearInterrupt(tof_x_pos.tof_addr);
+      printf("Distance: %dmm\r\n", distancexpos);
 
     /* USER CODE END WHILE */
 
@@ -343,25 +366,36 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-static void TOF_Init(){
-	tof_1.tof_addr = 0x52;
-	tof_1.tof_port = SHUT_ToF1_GPIO_Port;
-	tof_1.tof_pin = SHUT_ToF1_Pin;
-	tof_1.tof_intpin = INT_ToF1_Pin;
+static void TOFxpos_Init(){
+	tof_x_pos.tof_addr = 0x52;
+	tof_x_pos.tof_intport = INT_ToF1_GPIO_Port;
+	tof_x_pos.tof_wakeport = SHUT_ToF1_GPIO_Port;
+	tof_x_pos.tof_intpin = INT_ToF1_Pin;
+	tof_x_pos.tof_wakepin = SHUT_ToF1_Pin;
+}
 
-	VL53L1_SensorOn(tof_1.tof_pin, tof_1.tof_port);
-	HAL_Delay(500);
+static void TOFxneg_Init(){
+	tof_x_neg.tof_addr = 0x52;
+	tof_x_neg.tof_intport = INT_ToF2_GPIO_Port;
+	tof_x_neg.tof_wakeport = SHUT_ToF2_GPIO_Port;
+	tof_x_neg.tof_intpin = INT_ToF2_Pin;
+	tof_x_neg.tof_wakepin = SHUT_ToF2_Pin;
+}
 
-    uint8_t booted = 0;
+static void TOFypos_Init(){
+	tof_y_pos.tof_addr = 0x52;
+	tof_y_pos.tof_intport = INT_ToF3_GPIO_Port;
+	tof_y_pos.tof_wakeport = SHUT_ToF3_GPIO_Port;
+	tof_y_pos.tof_intpin = INT_ToF3_Pin;
+	tof_y_pos.tof_wakepin = SHUT_ToF3_Pin;
+}
 
-	printf("Start\r\n");
-	while(booted == 0){
-	    VL53L1X_BootState(tof_1.tof_addr, &booted);
-	    HAL_Delay(1000);
-	    printf("Booting\r\n");
-	}
-	VL53L1X_SensorInit(tof_1.tof_addr);
-	printf("Ready\r\n");
+static void TOFyneg_Init(){
+	tof_y_neg.tof_addr = 0x52;
+	tof_y_neg.tof_intport = INT_ToF4_GPIO_Port;
+	tof_y_neg.tof_wakeport = SHUT_ToF4_GPIO_Port;
+	tof_y_neg.tof_intpin = INT_ToF4_Pin;
+	tof_y_neg.tof_wakepin = SHUT_ToF4_Pin;
 }
 
 /**
