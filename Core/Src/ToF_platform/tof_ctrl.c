@@ -16,7 +16,7 @@ void tof_ctrl_boot(VL53L1_DEV dev, uint8_t addr){
 
     uint8_t booted = 0;
 
-	//printf("Start Sensor: %x\r\n", (uint8_t)dev->tof_addr);
+	printf("Start Sensor: %x\r\n", (uint8_t)dev->tof_addr);
 	while(booted == 0){
 	    VL53L1X_BootState(dev->tof_addr, &booted);
 	    HAL_Delay(1000);

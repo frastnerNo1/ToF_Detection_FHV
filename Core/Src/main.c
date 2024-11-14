@@ -34,13 +34,13 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define DISTANCE_SLOW	50
+#define DISTANCE_SLOW	70
 #define DISTANCE_STOP	20
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -121,6 +121,7 @@ int main(void)
   //tof_ctrl_boot(&tof_4, 0x40);
 
   uint16_t distance = 0;
+  uint16_t minDistance = 0;
 
   /* USER CODE END 2 */
 
@@ -128,24 +129,34 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if(HAL_GPIO_ReadPin(X_DIR_IN_GPIO_Port, X_DIR_IN_Pin) == GPIO_PIN_SET){
+	  minDistance = 1000;
+
+	  if(HAL_GPIO_ReadPin(X_DIR_IN_GPIO_Port, X_DIR_IN_Pin) == GPIO_PIN_RESET){
 		  tof_ctrl_get_distance(&tof_1, &distance, 200);
-		  tof_ctrl_get_distance(&tof_2, &distance, 200);
+		  minDistance = MIN(distance, minDistance);
+		  //tof_ctrl_get_distance(&tof_2, &distance, 200);
+		  //minDistance = MIN(distance, minDistance);
 	  }
 
 	  if(HAL_GPIO_ReadPin(Y_DIR_IN_GPIO_Port, Y_DIR_IN_Pin) == GPIO_PIN_SET){
 		  tof_ctrl_get_distance(&tof_3, &distance, 200);
+		  minDistance = MIN(distance, minDistance);
 		  tof_ctrl_get_distance(&tof_4, &distance, 200);
+		  minDistance = MIN(distance, minDistance);
 	  }
 
-	  if(distance < DISTANCE_SLOW){
+	  printf("Min. Distance: %dmm\r\n", minDistance);
+
+	  if(minDistance < DISTANCE_SLOW){
 		  HAL_GPIO_WritePin(SLOW_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_SET);
+		  printf("SLOW!\r\n");
 	  } else {
 		  HAL_GPIO_WritePin(SLOW_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_RESET);
 	  }
 
-	  if(distance < DISTANCE_STOP){
+	  if(minDistance < DISTANCE_STOP){
 		  HAL_GPIO_WritePin(STOP_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_SET);
+		  printf("STOP!\r\n");
 	  } else {
 		  HAL_GPIO_WritePin(STOP_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_RESET);
 	  }
