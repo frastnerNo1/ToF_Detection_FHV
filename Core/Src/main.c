@@ -34,12 +34,13 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define DISTANCE_SLOW	70
+#define DISTANCE_STOP	20
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -48,10 +49,10 @@ I2C_HandleTypeDef hi2c1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-VL53L1_Dev_t tof_x_pos;
-VL53L1_Dev_t tof_x_neg;
-VL53L1_Dev_t tof_y_pos;
-VL53L1_Dev_t tof_y_neg;
+VL53L1_Dev_t tof_1;
+VL53L1_Dev_t tof_2;
+VL53L1_Dev_t tof_3;
+VL53L1_Dev_t tof_4;
 
 /* USER CODE END PV */
 
@@ -63,10 +64,10 @@ static void MX_I2C1_Init(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-static void TOFxpos_Init(void);
-static void TOFxneg_Init(void);
-static void TOFypos_Init(void);
-static void TOFyneg_Init(void);
+static void TOF1_Init(void);
+static void TOF2_Init(void);
+static void TOF3_Init(void);
+static void TOF4_Init(void);
 
 /* USER CODE END PFP */
 
@@ -110,28 +111,17 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-  printf("Start\r\n");
-  TOFxpos_Init();
-  //TOFxneg_Init();
-  //TOFypos_Init();
-  //TOFyneg_Init();
+  TOF1_Init();
+  TOF2_Init();
+  TOF3_Init();
+  TOF4_Init();
+  tof_ctrl_boot(&tof_1, 0x10);
+  //tof_ctrl_boot(&tof_2, 0x20);
+  //tof_ctrl_boot(&tof_3, 0x30);
+  //tof_ctrl_boot(&tof_4, 0x40);
 
-  tof_ctrl_init(&tof_x_pos);
-  //tof_ctrl_init(&tof_x_neg);
-  //tof_ctrl_init(&tof_y_pos);
-  //tof_ctrl_init(&tof_y_neg);
-
-  //tof_ctrl_set_addr(&tof_x_pos, 0x10);
-  //tof_ctrl_set_addr(&tof_x_neg, 0x20);
-  //tof_ctrl_set_addr(&tof_y_pos, 0x30);
-  //tof_ctrl_set_addr(&tof_y_neg, 0x40);
-
-  uint16_t distancexpos = 0;
-  uint8_t sensorState = 0;
-  uint8_t status = 0;
-
-  VL53L1_SensorOn(&tof_x_pos);
-  VL53L1X_StartRanging(tof_x_pos.tof_addr);
+  uint16_t distance = 0;
+  uint16_t minDistance = 0;
 
   /* USER CODE END 2 */
 
@@ -139,17 +129,37 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      printf("loop\r\n");
-      HAL_Delay(1000);
-  	while(sensorState == 0){
-  		printf("loopwait\r\n");
-  		VL53L1X_CheckForDataReady(tof_x_pos.tof_addr, &sensorState);
-  	}
-  	sensorState = 0;
-  	VL53L1X_GetRangeStatus(tof_x_pos.tof_addr, &status);
-  	VL53L1X_GetDistance(tof_x_pos.tof_addr, &distancexpos);
-  	VL53L1X_ClearInterrupt(tof_x_pos.tof_addr);
-      printf("Distance: %dmm\r\n", distancexpos);
+	  minDistance = 1000;
+
+	  if(HAL_GPIO_ReadPin(X_DIR_IN_GPIO_Port, X_DIR_IN_Pin) == GPIO_PIN_RESET){
+		  tof_ctrl_get_distance(&tof_1, &distance, 200);
+		  minDistance = MIN(distance, minDistance);
+		  //tof_ctrl_get_distance(&tof_2, &distance, 200);
+		  //minDistance = MIN(distance, minDistance);
+	  }
+
+	  if(HAL_GPIO_ReadPin(Y_DIR_IN_GPIO_Port, Y_DIR_IN_Pin) == GPIO_PIN_SET){
+		  tof_ctrl_get_distance(&tof_3, &distance, 200);
+		  minDistance = MIN(distance, minDistance);
+		  tof_ctrl_get_distance(&tof_4, &distance, 200);
+		  minDistance = MIN(distance, minDistance);
+	  }
+
+	  printf("Min. Distance: %dmm\r\n", minDistance);
+
+	  if(minDistance < DISTANCE_SLOW){
+		  HAL_GPIO_WritePin(SLOW_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_SET);
+		  printf("SLOW!\r\n");
+	  } else {
+		  HAL_GPIO_WritePin(SLOW_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_RESET);
+	  }
+
+	  if(minDistance < DISTANCE_STOP){
+		  HAL_GPIO_WritePin(STOP_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_SET);
+		  printf("STOP!\r\n");
+	  } else {
+		  HAL_GPIO_WritePin(STOP_OUT_GPIO_Port, SLOW_OUT_Pin, GPIO_PIN_RESET);
+	  }
 
     /* USER CODE END WHILE */
 
@@ -366,36 +376,36 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-static void TOFxpos_Init(){
-	tof_x_pos.tof_addr = 0x52;
-	tof_x_pos.tof_intport = INT_ToF1_GPIO_Port;
-	tof_x_pos.tof_wakeport = SHUT_ToF1_GPIO_Port;
-	tof_x_pos.tof_intpin = INT_ToF1_Pin;
-	tof_x_pos.tof_wakepin = SHUT_ToF1_Pin;
+static void TOF1_Init(){
+	tof_1.tof_addr = 0x52;
+	tof_1.tof_port = SHUT_ToF1_GPIO_Port;
+	tof_1.tof_pin = SHUT_ToF1_Pin;
+	tof_1.tof_intport = INT_ToF1_GPIO_Port;
+	tof_1.tof_intpin = INT_ToF1_Pin;
 }
 
-static void TOFxneg_Init(){
-	tof_x_neg.tof_addr = 0x52;
-	tof_x_neg.tof_intport = INT_ToF2_GPIO_Port;
-	tof_x_neg.tof_wakeport = SHUT_ToF2_GPIO_Port;
-	tof_x_neg.tof_intpin = INT_ToF2_Pin;
-	tof_x_neg.tof_wakepin = SHUT_ToF2_Pin;
+static void TOF2_Init(){
+	tof_2.tof_addr = 0x52;
+	tof_2.tof_port = SHUT_ToF2_GPIO_Port;
+	tof_2.tof_pin = SHUT_ToF2_Pin;
+	tof_2.tof_intport = INT_ToF2_GPIO_Port;
+	tof_2.tof_intpin = INT_ToF2_Pin;
 }
 
-static void TOFypos_Init(){
-	tof_y_pos.tof_addr = 0x52;
-	tof_y_pos.tof_intport = INT_ToF3_GPIO_Port;
-	tof_y_pos.tof_wakeport = SHUT_ToF3_GPIO_Port;
-	tof_y_pos.tof_intpin = INT_ToF3_Pin;
-	tof_y_pos.tof_wakepin = SHUT_ToF3_Pin;
+static void TOF3_Init(){
+	tof_3.tof_addr = 0x52;
+	tof_3.tof_port = SHUT_ToF3_GPIO_Port;
+	tof_3.tof_pin = SHUT_ToF3_Pin;
+	tof_3.tof_intport = INT_ToF3_GPIO_Port;
+	tof_3.tof_intpin = INT_ToF3_Pin;
 }
 
-static void TOFyneg_Init(){
-	tof_y_neg.tof_addr = 0x52;
-	tof_y_neg.tof_intport = INT_ToF4_GPIO_Port;
-	tof_y_neg.tof_wakeport = SHUT_ToF4_GPIO_Port;
-	tof_y_neg.tof_intpin = INT_ToF4_Pin;
-	tof_y_neg.tof_wakepin = SHUT_ToF4_Pin;
+static void TOF4_Init(){
+	tof_4.tof_addr = 0x52;
+	tof_4.tof_port = SHUT_ToF4_GPIO_Port;
+	tof_4.tof_pin = SHUT_ToF4_Pin;
+	tof_4.tof_intport = INT_ToF4_GPIO_Port;
+	tof_4.tof_intpin = INT_ToF4_Pin;
 }
 
 /**
