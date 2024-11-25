@@ -1,2 +1,2 @@
 ../Core/Src/ToF_platform/tof_ctrl.c:13:6:tof_ctrl_boot	2
-../Core/Src/ToF_platform/tof_ctrl.c:32:6:tof_ctrl_get_distance	3
+../Core/Src/ToF_platform/tof_ctrl.c:34:6:tof_ctrl_get_distance	3

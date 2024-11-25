@@ -12,6 +12,6 @@
 
 void tof_ctrl_boot(VL53L1_DEV dev, uint8_t addr);
 
-void tof_ctrl_get_distance(VL53L1_DEV dev, uint16_t* pDistance, uint16_t timeout);
+void tof_ctrl_get_distance(VL53L1_DEV dev, uint16_t* pDistance, uint32_t timeout);
 
 #endif /* INC_TOF_PLATFORM_TOF_CTRL_H_ */

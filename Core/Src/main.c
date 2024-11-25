@@ -132,7 +132,7 @@ int main(void)
 	  minDistance = 1000;
 
 	  if(HAL_GPIO_ReadPin(X_DIR_IN_GPIO_Port, X_DIR_IN_Pin) == GPIO_PIN_RESET){
-		  tof_ctrl_get_distance(&tof_1, &distance, 200);
+		  tof_ctrl_get_distance(&tof_1, &distance, 500);
 		  minDistance = MIN(distance, minDistance);
 		  //tof_ctrl_get_distance(&tof_2, &distance, 200);
 		  //minDistance = MIN(distance, minDistance);

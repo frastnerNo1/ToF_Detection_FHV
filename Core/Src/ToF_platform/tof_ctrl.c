@@ -26,21 +26,27 @@ void tof_ctrl_boot(VL53L1_DEV dev, uint8_t addr){
 	VL53L1X_SetI2CAddress(dev->tof_addr, addr);
 	dev->tof_addr = addr;
 	VL53L1X_SetDistanceMode(dev->tof_addr, RANGEMODE);
+	VL53L1X_SetInterMeasurementInMs(dev->tof_addr, 250);
+	VL53L1X_SetTimingBudgetInMs(dev->tof_addr, 200);
 	printf("Ready Sensor: %x\r\n", (uint8_t)dev->tof_addr);
 }
 
-void tof_ctrl_get_distance(VL53L1_DEV dev, uint16_t* pDistance, uint16_t timeout){
+void tof_ctrl_get_distance(VL53L1_DEV dev, uint16_t* pDistance, uint32_t timeout){
     uint8_t dataReady = 0;
     uint32_t timestamp = HAL_GetTick();
 
+    VL53L1X_ClearInterrupt(dev->tof_addr);
     VL53L1X_StartRanging(dev->tof_addr);
     while(dataReady == 0){
         VL53L1X_CheckForDataReady(dev->tof_addr, &dataReady);
         if((HAL_GetTick() - timestamp) > timeout){
+        	VL53L1X_ClearInterrupt(dev->tof_addr);
+        	VL53L1X_StopRanging(dev->tof_addr);
+        	printf("TIMEOUT!\n\r");
         	return;
         }
     }
     VL53L1X_GetDistance(dev->tof_addr, pDistance);
-    VL53L1X_ClearInterrupt(dev->tof_addr);
+    //VL53L1X_ClearInterrupt(dev->tof_addr);
     VL53L1X_StopRanging(dev->tof_addr);
 }
